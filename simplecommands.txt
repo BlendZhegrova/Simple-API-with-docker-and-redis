@@ -1,0 +1,7 @@
+Build a docker image using the Dockerfile in the current directory:
+# docker build .
+Build a docker image from a Dockerfile at a specified URL:
+# docker build github.com/creack/docker-firefox
+
+Connect to redis-cli through docker:
+#docker exec -it #imageName redis-cli

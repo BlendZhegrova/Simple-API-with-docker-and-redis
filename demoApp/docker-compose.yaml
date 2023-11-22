@@ -1,0 +1,41 @@
+version: '3.4'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  demo-app: 
+    image: docker.io/library/demoapp
+    depends_on:
+      - app_db
+    container_name: demoapp-services
+    ports:
+      - "8088:80"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionStrings_DefaultConnection=UserID=mysql;Password=mysql;Server=app_db;Port=5433;Database=SampleDbDriver;Pooling=true;
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev
+
+  app_db:
+    image: mysql:8.0
+    container_name: app_db
+    environment:
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_DATABASE=SampleDbDriver
+      - MYSQL_ROOT_PASSWORD=fjosa
+    ports:
+      - "5433:3306"
+    restart: always
+    volumes: 
+      - /c/Users/blend.zhegrova/Desktop/mysql:/var/lib/mysql
+    networks:
+      - dev
+      
+volumes:
+  app_data:
